@@ -1,0 +1,15 @@
+.todoList {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0px 0px 5px 5px;
+}
+
+.todoList div {
+  text-align: start;
+  width: 45%;
+}
+
+.header div {
+  font-weight: bold;
+}
