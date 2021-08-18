@@ -4,5 +4,5 @@ Client-side implementation of todo app using Apollo Client. Includes adding and 
 
 ## Instructions
 
-* npm install
-* npm start
+* `npm install`
+* `npm start`
