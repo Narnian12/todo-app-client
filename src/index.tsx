@@ -4,7 +4,7 @@ import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@ap
 import { setContext } from '@apollo/client/link/context';
 import App from './App';
 
-const httpLink = createHttpLink({ uri: 'http://localhost:4000/' });
+const httpLink = createHttpLink({ uri: 'https://ps-todo-app-server.herokuapp.com/' });
 
 const authLink = setContext((_, { headers }) => {
   return {
