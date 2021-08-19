@@ -1,5 +1,6 @@
 {
     "name": "todo-app-client",
+    "homepage": "http://narnian12.github.io/todo-app-client",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
