@@ -21,6 +21,8 @@ export const ADD_TODO = gql`
 
 export const DELETE_TODO = gql`
   mutation deleteTodo($id: String!) {
-    deleteTodo(id: $id)
+    deleteTodo(id: $id) {
+      id
+    }
   }
 `;
