@@ -5,9 +5,7 @@ import { Todo, TodoStateInterface } from '../../todo-interface';
 import { v4 as uuid_v4 } from 'uuid';
 import { useMutation } from '@apollo/client';
 import { ADD_TODO } from '../../graphql/mutations/todoMutations';
-import { InsertTodoParams } from '../../graphql/params/insertTodoParams';
-
-import './Header.css';
+import { InsertUpdateTodoParams } from '../../graphql/params/insertUpdateTodoParams';
 
 const Header: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
   const [show, setShow] = useState(false);
@@ -34,13 +32,14 @@ const Header: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
     let newTodo: Todo = {
       id: uuid_v4(),
       name: name,
-      info: info
+      info: info,
+      editing: false
     };
     insertTodo({
       variables: {
-        [InsertTodoParams.Id]: newTodo.id,
-        [InsertTodoParams.Name]: newTodo.name,
-        [InsertTodoParams.Info]: newTodo.info
+        [InsertUpdateTodoParams.Id]: newTodo.id,
+        [InsertUpdateTodoParams.Name]: newTodo.name,
+        [InsertUpdateTodoParams.Info]: newTodo.info
       }
     });
     clearFields();
@@ -50,17 +49,19 @@ const Header: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
 
   return (
     <>
-      <h1>Todo List Client</h1>
-      <Button variant="primary" onClick={handleShow}>Add Todo</Button>
+      <div style={{display: "flex", justifyContent: "space-between", margin: "10px 10px"}}>
+        <h1>Todo List Client</h1>
+        <Button variant="primary" onClick={handleShow}>Add Todo</Button>
+      </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add Todo</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className="add">
-            <label>Name</label>
+            <label style={{margin: "0px 5px"}}>Name</label>
             <input value={name} onChange={onNameChange}/>
-            <label>Info</label>
+            <label style={{margin: "0px 5px"}}>Info</label>
             <input value={info} onChange={onInfoChange}/>
           </form>
         </Modal.Body>

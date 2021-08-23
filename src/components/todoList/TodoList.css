@@ -1,11 +1,16 @@
 .todoList {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-  margin: 0px 0px 5px 5px;
+  margin: 5px;
 }
 
 .todoList div {
+  text-align: start;
+  width: 45%;
+}
+
+.todoList input {
   text-align: start;
   width: 45%;
 }

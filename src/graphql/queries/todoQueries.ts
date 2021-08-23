@@ -6,6 +6,7 @@ export const GET_TODO_LIST = gql`
       id
       name
       info
+      editing
     }
   }
 `;
