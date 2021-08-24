@@ -60,20 +60,26 @@ const TodoList: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
       </div>
       {todoList.map((elem: Todo) => 
         !elem.editing ? (
-          <div className="todoList" key={elem.id}>
-            <div>{elem.name}</div>
-            <div>{elem.info}</div>
-            <Button variant="secondary" onClick={() => editTodo(elem.id, true)} disabled={editing}><PencilSquare/></Button>
-            <Button variant="secondary" onClick={() => deleteTodo(elem.id)}><Trash/></Button>
-          </div>
+          <>
+            <hr/>
+            <div className="todoList" key={elem.id}>
+              <div>{elem.name}</div>
+              <div>{elem.info}</div>
+              <Button variant="secondary" onClick={() => editTodo(elem.id, true)} disabled={editing}><PencilSquare/></Button>
+              <Button variant="secondary" onClick={() => deleteTodo(elem.id)}><Trash/></Button>
+            </div>
+          </>
         ) : 
         (
-          <div className="todoList" key={elem.id}>
-            <input value={editingTodo.name} onChange={onNameChange}></input>
-            <input value={editingTodo.info} onChange={onInfoChange}></input>
-            <Button variant="secondary" onClick={() => editTodo(elem.id, false)}><X/></Button>
-            <Button variant="primary" onClick={updateTodo}><Check/></Button>
-          </div>
+          <>
+            <hr/>
+            <div className="todoList" key={elem.id}>
+              <input value={editingTodo.name} onChange={onNameChange}></input>
+              <input value={editingTodo.info} onChange={onInfoChange}></input>
+              <Button variant="secondary" onClick={() => editTodo(elem.id, false)}><X/></Button>
+              <Button variant="primary" onClick={updateTodo}><Check/></Button>
+            </div>
+          </>
         )
       )}
     </>
