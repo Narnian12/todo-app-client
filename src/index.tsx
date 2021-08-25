@@ -1,10 +1,31 @@
 import ReactDOM from 'react-dom';
 import './index.css';
-import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client';
+import { split, ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client';
+import { WebSocketLink } from '@apollo/client/link/ws';
 import { setContext } from '@apollo/client/link/context';
 import App from './App';
+import { getMainDefinition } from '@apollo/client/utilities';
 
-const httpLink = createHttpLink({ uri: 'https://ps-todo-app-server.herokuapp.com/' });
+// const httpLink = createHttpLink({ uri: 'https://ps-todo-app-server.herokuapp.com/' });
+const httpLink = createHttpLink({ uri: 'https://todo-app-server-expanded.herokuapp.com/graphql' });
+const wsLink = new WebSocketLink({
+  uri: 'wss://todo-app-server-expanded.herokuapp.com/graphql',
+  options: {
+    reconnect: true
+  }
+});
+
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  httpLink
+);
 
 const authLink = setContext((_, { headers }) => {
   return {
@@ -16,7 +37,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: authLink.concat(splitLink),
   cache: new InMemoryCache()
 });
 

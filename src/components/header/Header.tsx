@@ -49,8 +49,8 @@ const Header: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
 
   return (
     <>
-      <div style={{display: "flex", justifyContent: "space-between", margin: "10px 10px"}}>
-        <h1>Todo List Client</h1>
+      <div style={{display: "flex", justifyContent: "space-between", margin: "10px 5px"}}>
+        <h1>Todo List</h1>
         <Button variant="primary" onClick={handleShow}>Add Todo</Button>
       </div>
       <Modal show={show} onHide={handleClose}>
