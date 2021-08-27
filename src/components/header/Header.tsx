@@ -6,12 +6,16 @@ import { v4 as uuid_v4 } from 'uuid';
 import { useMutation } from '@apollo/client';
 import { ADD_TODO } from '../../graphql/mutations/todoMutations';
 import { InsertUpdateTodoParams } from '../../graphql/params/insertUpdateTodoParams';
+import AuthenticationButton from '../../Authentication/authenticationButton';
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Header: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
   const [show, setShow] = useState(false);
   const [name, setName] = useState('');
   const [info, setInfo] = useState('');
   const [insertTodo] = useMutation(ADD_TODO);
+  const { isAuthenticated } = useAuth0();
+  const [isLocal] = useState(window.location.origin.includes('localhost'));
 
   const clearFields = () => {
     setName('');
@@ -51,7 +55,8 @@ const Header: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
     <>
       <div style={{display: "flex", justifyContent: "space-between", margin: "10px 5px"}}>
         <h1>Todo List</h1>
-        <Button variant="primary" onClick={handleShow}>Add Todo</Button>
+        <Button variant="primary" onClick={handleShow} disabled={!isAuthenticated && isLocal}>Add Todo</Button>
+        {isLocal ? <AuthenticationButton /> : <></>}
       </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

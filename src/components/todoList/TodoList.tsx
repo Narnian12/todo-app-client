@@ -5,6 +5,7 @@ import { DELETE_TODO, SET_EDITING, UPDATE_TODO } from '../../graphql/mutations/t
 import { TODO_CHANGED } from '../../graphql/subscriptions/todoSubscriptions';
 import Button from 'react-bootstrap/Button';
 import { PencilSquare, Trash, Check, X } from 'react-bootstrap-icons';
+import { useAuth0 } from "@auth0/auth0-react";
 
 import './TodoList.css';
 
@@ -13,6 +14,8 @@ const TodoList: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
   const [deleteMutation] = useMutation(DELETE_TODO);
   const [setEditingMutation] = useMutation(SET_EDITING);
   const [updateTodoMutation] = useMutation(UPDATE_TODO);
+  const { isAuthenticated } = useAuth0();
+  const [authenticated] = useState(!window.location.origin.includes('localhost') ? true : isAuthenticated);
 
   // Enable multiple clients because subscription will update client if mutation did not manually update local state
   useEffect(() => {
@@ -85,8 +88,8 @@ const TodoList: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
             <div className="todoList">
               <div>{elem.name}</div>
               <div>{elem.info}</div>
-              <Button variant="secondary" onClick={() => editTodo(elem.id, true)} disabled={editing}><PencilSquare/></Button>
-              <Button variant="secondary" onClick={() => deleteTodo(elem.id)}><Trash/></Button>
+              <Button variant="secondary" onClick={() => editTodo(elem.id, true)} disabled={editing || !authenticated}><PencilSquare/></Button>
+              <Button variant="secondary" onClick={() => deleteTodo(elem.id)} disabled={!authenticated}><Trash/></Button>
             </div>
           </div>
         ) : 

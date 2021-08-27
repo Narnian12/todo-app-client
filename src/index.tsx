@@ -5,6 +5,8 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { setContext } from '@apollo/client/link/context';
 import App from './App';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { Auth0Provider } from '@auth0/auth0-react';
+import { HashRouter as Router, Route } from 'react-router-dom';
 
 // const httpLink = createHttpLink({ uri: 'https://ps-todo-app-server.herokuapp.com/' });
 const httpLink = createHttpLink({ uri: 'https://todo-app-server-expanded.herokuapp.com/graphql' });
@@ -41,9 +43,24 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
+// TODO : there is currently an issue with GitHub Pages and setting up Auth0
+let origin = window.location.origin.includes('localhost') ? 'http://localhost:3000/callback' : 'http://narnian12.github.io/todo-app-client/#/callback';
+
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
+  <Auth0Provider
+    domain='dev-pcwqkxo5.us.auth0.com'
+    clientId='A4YoJdfrCasvshDL06K9AfxpIpVif8DC'
+    redirectUri={`${origin}`}>
+    <ApolloProvider client={client}>
+      <Router>
+        <Route exact path="/">
+          <App />
+        </Route>
+        <Route path="/callback">
+          <App />
+        </Route>
+      </Router>
+    </ApolloProvider>
+  </Auth0Provider>,
   document.getElementById('root')
 );
