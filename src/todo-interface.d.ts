@@ -4,7 +4,8 @@ export interface Todo {
   id: string,
   name: string,
   info: string,
-  editing: boolean
+  editing: boolean,
+  visible: boolean
 }
 
 export interface TodoStateInterface {

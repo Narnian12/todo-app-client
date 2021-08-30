@@ -15,7 +15,7 @@ const TodoList: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
   const [setEditingMutation] = useMutation(SET_EDITING);
   const [updateTodoMutation] = useMutation(UPDATE_TODO);
   const { isAuthenticated } = useAuth0();
-  const [authenticated] = useState(!window.location.origin.includes('localhost') ? true : isAuthenticated);
+  const [authenticated, setAuthenticated] = useState(!window.location.origin.includes('localhost') ? true : isAuthenticated);
 
   // Enable multiple clients because subscription will update client if mutation did not manually update local state
   useEffect(() => {
@@ -28,7 +28,7 @@ const TodoList: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
       let updatedTodo: Todo = data.todoChanged.data;
       let checkTodo = todoList.filter(todo => todo.id === updatedTodo.id)[0];
       if (updatedTodo.name !== checkTodo.name || updatedTodo.info !== checkTodo.info) {
-        setTodoList(todoList.map(todo => todo.id === updatedTodo.id ? { id: updatedTodo.id, name: updatedTodo.name, info: updatedTodo.info, editing: false } : todo));
+        setTodoList(todoList.map(todo => todo.id === updatedTodo.id ? { id: updatedTodo.id, name: updatedTodo.name, info: updatedTodo.info, editing: false, visible: true } : todo));
       }
     }
     else if (data.todoChanged.type === 'DELETE') {
@@ -37,12 +37,16 @@ const TodoList: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
     }
   }, [data, todoList, setTodoList]);
 
+  useEffect(() => {
+    setAuthenticated(isAuthenticated)
+  }, [isAuthenticated]);
+
 
   // Find out whether a todo is previously being edited
   const getPreviouslyEditingTodo = () => {
     return todoList.length > 0 ? todoList.reduce((prev, curr) => {
-      return prev.editing ? prev : curr.editing ? curr : { id: '', name: '', info: '', editing: false };
-    }) : { id: "", name: "", info: "", editing: false };
+      return prev.editing ? prev : curr.editing ? curr : { id: '', name: '', info: '', editing: false, visible: true };
+    }) : { id: "", name: "", info: "", editing: false, visible: true };
   }
   const [editingTodo, setEditingTodo] = useState(getPreviouslyEditingTodo());
   const [editing, setEditing] = useState(false);
@@ -71,7 +75,7 @@ const TodoList: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
 
   const updateTodo = () => {
     updateTodoMutation({ variables: { id: editingTodo.id, name: editingTodo.name, info: editingTodo.info }});
-    setTodoList(todoList.map(todo => todo.id === editingTodo.id ? { id: editingTodo.id, name: editingTodo.name, info: editingTodo.info, editing: false } : todo));
+    setTodoList(todoList.map(todo => todo.id === editingTodo.id ? { id: editingTodo.id, name: editingTodo.name, info: editingTodo.info, editing: false, visible: true } : todo));
     setEditing(false);
   }
 
@@ -82,6 +86,7 @@ const TodoList: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
         <div>Info</div>
       </div>
       {todoList.map((elem: Todo) => 
+        elem.visible ?
         !elem.editing ? (
           <div key={elem.id}>
             <hr/>
@@ -104,6 +109,7 @@ const TodoList: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
             </div>
           </div>
         )
+        : <React.Fragment key={elem.id}></React.Fragment>
       )}
     </>
   );

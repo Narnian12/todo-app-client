@@ -18,7 +18,9 @@ const App: React.FC = () => {
     return <p>Error</p>
   }
   // If console log, notice the first iteration returns data as null, so do a single setState
-  if (data && !todoList) setTodoList(typedTodoList);
+  if (data && !todoList) {
+      setTodoList(typedTodoList.map(todo => { return { ...todo, visible: true } }));
+  }
 
   return (
     <div className="App">

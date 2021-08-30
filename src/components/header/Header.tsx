@@ -30,6 +30,9 @@ const Header: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
 
   const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => setName(event.target.value)
   const onInfoChange = (event: React.ChangeEvent<HTMLInputElement>) => setInfo(event.target.value)
+  const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setTodoList(todoList.map(todo => todo.name.startsWith(event.target.value) ? { ...todo, visible: true } : { ...todo, visible: false }));
+  }
   
   const addTodo = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -37,7 +40,8 @@ const Header: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
       id: uuid_v4(),
       name: name,
       info: info,
-      editing: false
+      editing: false,
+      visible: true
     };
     insertTodo({
       variables: {
@@ -56,6 +60,10 @@ const Header: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
       <div style={{display: "flex", justifyContent: "space-between", margin: "10px 5px"}}>
         <h1>Todo List</h1>
         <Button variant="primary" onClick={handleShow} disabled={!isAuthenticated && isLocal}>Add Todo</Button>
+        <div style={{display: "flex", margin: "10px"}}>
+            <h4>Search</h4>
+            <input onChange={onSearchChange}/>
+        </div>
         {isLocal ? <AuthenticationButton /> : <></>}
       </div>
       <Modal show={show} onHide={handleClose}>
