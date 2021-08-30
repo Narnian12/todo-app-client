@@ -44,13 +44,13 @@ const client = new ApolloClient({
 });
 
 // TODO : there is currently an issue with GitHub Pages and setting up Auth0
-let origin = window.location.origin.includes('localhost') ? 'http://localhost:3000/callback' : 'http://ps-todo-app-client.netlify.app/callback';
+// let origin = window.location.origin.includes('localhost') ? 'http://localhost:3000/callback' : 'http://ps-todo-app-client.netlify.app/callback';
 
 ReactDOM.render(
   <Auth0Provider
     domain='dev-pcwqkxo5.us.auth0.com'
     clientId='A4YoJdfrCasvshDL06K9AfxpIpVif8DC'
-    redirectUri={`${origin}`}>
+    redirectUri={window.location.origin}>
     <ApolloProvider client={client}>
       <Router>
         <Route exact path="/">
