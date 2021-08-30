@@ -64,7 +64,8 @@ const Header: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
             <h4>Search</h4>
             <input onChange={onSearchChange}/>
         </div>
-        {isLocal ? <AuthenticationButton /> : <></>}
+        <AuthenticationButton />
+        {/* {isLocal ? <AuthenticationButton /> : <></>} */}
       </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

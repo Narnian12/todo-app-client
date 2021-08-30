@@ -6,7 +6,7 @@ import { setContext } from '@apollo/client/link/context';
 import App from './App';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { Auth0Provider } from '@auth0/auth0-react';
-import { HashRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 // const httpLink = createHttpLink({ uri: 'https://ps-todo-app-server.herokuapp.com/' });
 const httpLink = createHttpLink({ uri: 'https://todo-app-server-expanded.herokuapp.com/graphql' });
@@ -44,7 +44,7 @@ const client = new ApolloClient({
 });
 
 // TODO : there is currently an issue with GitHub Pages and setting up Auth0
-let origin = window.location.origin.includes('localhost') ? 'http://localhost:3000/callback' : 'http://narnian12.github.io/todo-app-client/#/callback';
+let origin = window.location.origin.includes('localhost') ? 'http://localhost:3000/callback' : 'http://ps-todo-app-client.netlify.app/callback';
 
 ReactDOM.render(
   <Auth0Provider
