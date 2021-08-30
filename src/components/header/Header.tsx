@@ -31,7 +31,8 @@ const Header: React.FC<TodoStateInterface> = ({ todoList, setTodoList }) => {
   const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => setName(event.target.value)
   const onInfoChange = (event: React.ChangeEvent<HTMLInputElement>) => setInfo(event.target.value)
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setTodoList(todoList.map(todo => todo.name.startsWith(event.target.value) ? { ...todo, visible: true } : { ...todo, visible: false }));
+    console.log(isAuthenticated);
+    setTodoList(todoList.map(todo => todo.name.startsWith(event.target.value) ? { ...todo, visible: true } : { ...todo, visible: false }));
   }
   
   const addTodo = (event: React.SyntheticEvent) => {
