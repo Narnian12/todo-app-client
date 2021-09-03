@@ -7,8 +7,8 @@ export const TODO_CHANGED = gql`
       data {
         id
         name
-        info
         editing
+        complete
       }
     }
   }

@@ -3,10 +3,15 @@ import { useQuery } from '@apollo/client';
 import { GET_TODO_LIST } from './graphql/queries/todoQueries';
 import { Todo } from './todo-interface';
 
-import Header from './components/header/Header';
-import TodoList from './components/todoList/TodoList';
-import './App.css';
+import Header from './components/Header';
+import TodoList from './components/TodoList';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import styled from 'styled-components';
+
+const TodoWrapper = styled.div`
+  max-width: 1000px;
+  margin: auto;
+`
 
 const App: React.FC = () => {
   const { loading, error, data, } = useQuery(GET_TODO_LIST);
@@ -23,10 +28,10 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="App">
+    <TodoWrapper>
       <Header todoList={todoList} setTodoList={setTodoList}/>
       <TodoList todoList={todoList} setTodoList={setTodoList}/>
-    </div>
+    </TodoWrapper>
   );
 }
 
