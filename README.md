@@ -1,6 +1,6 @@
 # TODO App Client
 
-Client-side implementation of todo app using Apollo Client. Includes adding deleting, and updating todo items. Support multiple clients through subscription handling.
+Client-side implementation of todo app using Apollo Client. Includes adding, deleting, and updating todo items. Support multiple clients through subscription handling.
 
 ## Instructions
 
